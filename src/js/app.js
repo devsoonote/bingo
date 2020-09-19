@@ -1,6 +1,7 @@
-function Gamer(row, cell, elId) {
+function Gamer(row, cell, elId, name = '플레이어') {
   let _board = createBoard(row, cell);
   let _score = 0;
+  let _name = name;
   const scoreId = document.getElementById(elId);
   const _result = {
     row: new Array(5).fill(0),
@@ -41,9 +42,6 @@ function Gamer(row, cell, elId) {
     if (_result.right === 5) {
       this.score++;
     }
-
-    console.log(_result);
-
   }
 
   return {
@@ -59,6 +57,9 @@ function Gamer(row, cell, elId) {
     set score(v) {
       _score = v;
       scoreId.innerText = this.score;
+    },
+    get name() {
+      return _name
     },
     getResult
   }
@@ -92,10 +93,14 @@ function getRandomArbitrary(min, max) {
 
 document.getElementById('start-button').addEventListener('click', function(e) {
   //1. board 생성
-  const me = new Gamer(5, 5, 'me-score');
-  const you = new Gamer(5, 5, 'you-score');
+  const meName = document.getElementById('me-name').value;
+  const youName = document.getElementById('you-name').value;
+  const me = new Gamer(5, 5, 'me-score', meName);
+  const you = new Gamer(5, 5, 'you-score', youName);
   let current = 'me';
   const history = [];
+  document.getElementById('me-name-box').innerHTML = me.name;
+  document.getElementById('you-name-box').innerHTML = you.name;
 
   //2. 빙고 스코어 init
   const meScore = document.getElementById('me-score');
@@ -161,6 +166,8 @@ document.getElementById('start-button').addEventListener('click', function(e) {
   document.querySelector('.game-page').style.display = 'block';
 });
 
+document.getElementById('restart-btn').addEventListener('click', resetGame)
+
 function resetGame() {
   const preBoard1 = document.getElementById('you-board');
   const preBoard2 = document.getElementById('me-board')
@@ -169,6 +176,8 @@ function resetGame() {
   preBoard1.parentNode.replaceChild(cloneBoard1, preBoard1)
   preBoard2.parentNode.replaceChild(cloneBoard2, preBoard2)
 
+  document.querySelector('#you-name').value = '';
+  document.querySelector('#me-name').value = '';
   document.querySelector('.game-history-box').innerHTML = '';
   document.querySelector('.main-page').style.display = 'block';
   document.querySelector('.game-page').style.display = 'none';

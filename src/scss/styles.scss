@@ -54,6 +54,19 @@ body {
       background-color: #7a5c33;
     }
   }
+
+  .name-box{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .player-name{
+    border: 0;
+    background-color: #e7d6bf;
+    padding: 0.8rem 1rem;
+    width: 40%;
+    outline: none;
+  }
 }
 
 .footer {

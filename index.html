@@ -24,6 +24,10 @@
                         <li>- 5개의 빙고가 먼저 완성한 사람이 성공입니다.</li>
                         <li>- 자신의 차례에 번호를 클릭하셔야 합니다.</li>
                     </ul>
+                    <div class="name-box">
+                        <input type="text" placeholder="당신의 이름을 작성해주세요" id="me-name" class="input player-name"/>
+                        <input type="text" placeholder="상대방의 이름을 작성해주세요" id="you-name" class="input player-name"/>
+                    </div>
                     <div class="btn-box">
                         <button type="button" class="start-btn" id="start-button">START</button>
                     </div>
@@ -31,7 +35,7 @@
                 <div class="content-box game-page">
                     <div class="game-board-container">
                         <div class="game-board you">
-                            <h3 class="game-board-name">You</h3>
+                            <h3 class="game-board-name" id="you-name-box">You</h3>
                             <table class="board" id="you-board"></table>
                             <div class="score-container">
                                 <span>빙고: </span>
@@ -39,7 +43,7 @@
                             </div>
                         </div>
                         <div class="game-board me">
-                            <h3 class="game-board-name">Me</h3>
+                            <h3 class="game-board-name" id="me-name-box">Me</h3>
                             <table class="board" id="me-board"></table>
                             <div class="score-container">
                                 <span>빙고: </span>
