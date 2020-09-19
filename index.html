@@ -34,30 +34,27 @@
                 </div>
                 <div class="content-box game-page">
                     <div class="game-board-container">
-                        <div class="game-board you">
+                        <div class="game-board" id="you">
                             <h3 class="game-board-name" id="you-name-box">You</h3>
                             <table class="board" id="you-board"></table>
                             <div class="score-container">
                                 <span>빙고: </span>
-                                <span id="you-score">3</span>
+                                <span id="you-score" class="score-text">3</span>
                             </div>
                         </div>
-                        <div class="game-board me">
+                        <div class="game-board" id="me">
                             <h3 class="game-board-name" id="me-name-box">Me</h3>
                             <table class="board" id="me-board"></table>
                             <div class="score-container">
                                 <span>빙고: </span>
-                                <span id="me-score">3</span>
+                                <span id="me-score" class="score-text">3</span>
                             </div>
                         </div>
                     </div>
-                    <div class="game-history-container">
+                    <div class="game-history-container" id="game-history-container">
                         <h3 class="game-history-title">History</h3>
                         <div class="game-history-box"></div>
 
-                    </div>
-                    <div class="btn-box">
-                        <button type="button" id="restart-btn" class="start-btn">재시작</button>
                     </div>
                 </div>
             </div>
