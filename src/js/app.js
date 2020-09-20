@@ -1,7 +1,7 @@
-function Player({row = 5, cell = 5, name, containerEl}) {
-  const _board = this.createBoard(row, cell);
-  let _score = 0;
-  const _name = name;
+function Player(containerEl, {row = 5, cell = 5, name = ''}) {
+  this.board = this.createBoard(row, cell);
+  this.score = 0;
+  this.name = name;
 
   this.result = {
     row: new Array(5).fill(0),
@@ -12,81 +12,115 @@ function Player({row = 5, cell = 5, name, containerEl}) {
 
   if (document.getElementById(containerEl) === null) throw Error(`${containerEl}를 찾을 수 없습니다`);
 
-  const scoreIdEl = document.getElementById(containerEl).getElementsByClassName('score-text');
-  const nameIdEl = document.getElementById(containerEl).getElementsByClassName('game-board-name');
-  this.boardEl = document.getElementById(containerEl).getElementsByClassName('board');
+  this.containerEl = document.getElementById(containerEl);
+}
 
-  nameIdEl.innerText = _name;
+Player.prototype = {
+  constructor: Player,
+  createBoard: function(row, cell) {
+    const numbers = [];
+    this.board = [];
 
-  return {
-    get score() {
-      return _score
-    },
-    set score(v) {
-      _score = v;
-    },
-    get board() {
-      return _board
-    },
-    get name() {
-      return _name
+    for (let i = 1; i <= row * cell; i++) {
+      numbers.push(i);
     }
+
+    for (let i = 0; i < row; i++) {
+      const board_row = [];
+      for (let j = 0; j < cell; j++) {
+        const idx = getRandomArbitrary(0, numbers.length - 1);
+        board_row.push(numbers[idx]);
+        numbers.splice(idx, 1);
+      }
+      this.board.push(board_row);
+    }
+
+    return this.board;
+  },
+  getResult: function(target) {
+    const { result, board } = this;
+
+    for (let i=0; i<board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        if (board[i][j] === parseInt(target.textContent, 10)) {
+          result.row[i]++;
+          result.cell[j]++;
+
+          if (i === j) {
+            result.left++;
+            if (i + j === 4) {
+              result.right++;
+            }
+          } else if (i + j === 4) {
+            result.right++;
+          }
+        }
+
+      }
+    }
+
+    return this.getScoreString();
+  },
+  getScoreString: function() {
+    const { result } = this;
+    const resultCell = result.cell.filter(item => item === 5);
+    const resultRow = result.row.filter(item => item === 5);
+
+    this.score = resultCell.length + resultRow.length;
+
+    if (result.left === 5) {
+      this.score++;
+    }
+
+    if (result.right === 5) {
+      this.score++;
+    }
+
+    return this.score;
   }
 }
 
-Player.prototype.createBoard = function(row, cell) {
-  const numbers = [];
-  this.board = [];
 
-  for (let i = 1; i <= row * cell; i++) {
-    numbers.push(i);
-  }
-
-  for (let i = 0; i < row; i++) {
-    const board_row = [];
-    for (let j = 0; j < cell; j++) {
-      const idx = getRandomArbitrary(0, numbers.length - 1);
-      board_row.push(numbers[idx]);
-      numbers.splice(idx, 1);
-    }
-    this.board.push(board_row);
-  }
-
-  return this.board;
+function getRandomArbitrary(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 
-Player.prototype.createBoardUI = function(callback, current) {
+function CreateBoardUI({bingo, callback, player}) {
   if (!(callback instanceof Function)) {
     throw new Error('콜백함수를 잘못 전달 받았습니다');
   }
 
-  for (let i = 0; i < this.board.length; i++) {
+  // 보드판 UI
+  for (let i = 0; i < player.board.length; i++) {
     const tr = document.createElement('tr');
-    for (let j = 0; j < this.board[0].length; j++) {
+    for (let j = 0; j < player.board[0].length; j++) {
       const td = document.createElement('td');
-      td.innerText = this.board[i][j];
-      td.name = this.boardEl[i][j];
+      td.innerText = player.board[i][j];
       tr.appendChild(td);
     }
-    this.boardEl.appendChild(tr);
+    player.containerEl.querySelector('.board').appendChild(tr);
   }
 
-  this.boardEl.addEventListener('click', function(e) {
-    if (current !== this.name) {
+  // 점수판, 이름 UI
+  player.containerEl.querySelector('.score-text').innerText = player.score;
+  player.containerEl.querySelector('.game-board-name').innerText = player.name;
+
+  player.containerEl.querySelector('.board').addEventListener('click', (e) => {
+    if (bingo.current !== player.name) {
       alert('현재 차례가 아닙니다')
-      e.preventDefault();
+      return;
     }
 
     e.target.classList.add('active');
-    const otherBoard = document.getElementsByClassName('board').reduce((acc, cur) => cur === this.boardEl ? acc : cur);
-    addClassOfOtherBoard(otherBoard, e.target);
-    this.getResult(e.target);
+    const boards = document.getElementsByClassName('board');
+    const otherBoard = [].reduce.call(boards, (acc, cur) => cur !== player.containerEl.querySelector('.board') ? cur : acc);
+    this.addClassOfOtherBoard(otherBoard, e.target);
 
     callback.call(null, e.target);
   });
 }
 
-function addClassOfOtherBoard(boardEl, target) {
+CreateBoardUI.prototype.addClassOfOtherBoard = function(boardEl, target) {
   Array.prototype.forEach.call(boardEl.children, (trEl) => {
     Array.prototype.forEach.call(trEl.children, (tdEl) => {
       if (tdEl.textContent === target.textContent) {
@@ -96,103 +130,68 @@ function addClassOfOtherBoard(boardEl, target) {
   })
 }
 
-Player.prototype.getResult = function(target) {
-  const { result, board, scoreIdEl } = this;
-
-  for (let i=0; i<board.length; i++) {
-    for (let j = 0; j < board[i].length; j++) {
-      if (board[i][j] === parseInt(target.textContent, 10)) {
-        result.row[i]++;
-        result.cell[j]++;
-
-        if (i === j) {
-          result.left++;
-          if (i + j === 4) {
-            result.right++;
-          }
-        } else if (i + j === 4) {
-          result.right++;
-        }
-      }
-
-    }
-  }
-
-  scoreIdEl.innerText = this.getScoreString();
-}
-
-Player.prototype.getScoreString = function() {
-  const { result } = this;
-  const resultCell = result.cell.filter(item => item === 5);
-  const resultRow = result.row.filter(item => item === 5);
-
-  this.score = resultCell.length + resultRow.length;
-
-  if (result.left === 5) {
-    this.score++;
-  }
-
-  if (result.right === 5) {
-    this.score++;
-  }
-
-  return this.score;
-}
-
-function getRandomArbitrary(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
 // app
 function App() {
-  const meName = document.getElementById('me-name').value;
-  const youName = document.getElementById('you-name').value;
-  const me = new Player({
-    name: meName,
-    scoreEl: 'me-score',
-    nameEl: 'me-name-box'
-  });
-  const you = new Player({
-    name: youName,
-    scoreEl: 'you-score',
-    nameEl: 'you-name-box'
-  });
+  const mePlayerNameEl = document.getElementById('me-name');
+  const youPlayerNameEl = document.getElementById('you-name');
 
-  this.startGame(me, you);
+  document.getElementById('start-button').addEventListener('click', (e) => {
+    const me = new Player('me', {row: 5, cell: 5, name: mePlayerNameEl.value});
+    const you = new Player('you', {row: 5, cell: 5, name: youPlayerNameEl.value});
+
+    this.startGame(me, you);
+    e.preventDefault();
+  })
 }
 
 App.prototype.startGame = function(me, you) {
-  document.getElementById('start-button').addEventListener('click', () => {
-    const bingo = new Bingo(me.name);
+    const bingo = new Bingo([me.name, you.name]);
     const { history } = bingo;
 
-    function callback(target) {
+    const callback = (target) => {
       if (history.includes(target.textContent)) return;
 
-      bingo.activeHistory(target);
-      bingo.current = bingo.current === me.name ? you.name : me.name;
+      bingo.activeHistory(target, 'game-history-box');
 
-      if (me.score === 5 || you.score === 5) {
+      const meResult = me.getResult(target);
+      const youResult = you.getResult(target);
+      me.containerEl.querySelector('.score-text').innerText = meResult;
+      you.containerEl.querySelector('.score-text').innerText = youResult;
+
+
+      if (meResult === 5 || youResult === 5) {
         alert('이겼습니다');
         this.resetGame();
       }
     }
 
-      me.createBoardUI(callback, bingo.current);
-      you.createBoardUI(callback, bingo.current);
+    try {
+      new CreateBoardUI({
+        bingo,
+        callback,
+        player: me
+      });
 
-      document.querySelector('.main-page').style.display = 'none';
-      document.querySelector('.game-page').style.display = 'block';
-    })
+      new CreateBoardUI({
+        bingo,
+        callback,
+        player: you
+      });
+    } catch (e) {
+      console.log(e);
+    }
+
+    document.querySelector('.main-page').style.display = 'none';
+    document.querySelector('.game-page').style.display = 'block';
 }
 
 App.prototype.resetGame = function () {
-  document.querySelector('.board').map((preEle, i) => {
-    const cloneBoard = preEle[i].cloneNode(false);
-    preEle[i].parentNode.replaceChild(cloneBoard, preEle[i])
-  })
+  [].map.call(document.querySelectorAll('.board'), preEle => {
+    const cloneBoard = preEle.cloneNode(false);
+    preEle.parentNode.replaceChild(cloneBoard, preEle)
+  });
 
-  document.querySelector('.player-name').map(item => item.value = '')
+  [].map.call(document.querySelectorAll('.player-name'), item => item.value = '');
   document.querySelector('.game-history-box').innerHTML = '';
 
   document.querySelector('.main-page').style.display = 'block';
@@ -200,19 +199,29 @@ App.prototype.resetGame = function () {
 }
 
 
-function Bingo(current) {
+function Bingo([me, you]) {
   this.history = [];
-  this.current = current;
+  this.current = me;
+  this.players = [me, you]
 }
 
-Bingo.prototype.activeHistory = function(target, historyBoxEl) {
-  if (document.getElementById(historyBoxEl) === null) throw Error();
-  this.historyBoxEl = document.getElementById(historyBoxEl);
+Bingo.prototype = {
+  constructor: Bingo,
+  activeHistory: function(target, historyBoxEl) {
+    if (document.getElementById(historyBoxEl) === null) throw Error();
+    this.historyBoxEl = document.getElementById(historyBoxEl);
 
-  this.history.push(target.textContent);
-  this.historyBoxEl.insertAdjacentHTML('beforeend', `<span>${target.textContent}</span>`)
+    this.history.push(target.textContent);
+    this.historyBoxEl.insertAdjacentHTML('beforeend', `<span>${target.textContent}</span>`)
 
-  return this.history;
+    if (this.current === this.players[0]) {
+      this.current =  this.players[1]
+    } else {
+      this.current = this.players[0]
+    }
+
+    return this.history;
+  },
 }
 
 new App();
