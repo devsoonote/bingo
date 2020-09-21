@@ -16,24 +16,24 @@ App.prototype.startGame = function(me, you) {
     const bingo = new Bingo([me.name, you.name]);
     const { history } = bingo;
 
-    const callback = (target) => {
-      if (history.includes(target.textContent)) return;
-
-      bingo.activeHistory(target, 'game-history-box');
-
-      const meResult = me.getResult(target);
-      const youResult = you.getResult(target);
-      me.containerEl.querySelector('.score-text').innerText = meResult;
-      you.containerEl.querySelector('.score-text').innerText = youResult;
-
-
-      if (meResult === 5 || youResult === 5) {
-        alert('이겼습니다');
-        this.resetGame();
-      }
-    }
-
     try {
+      const callback = (target) => {
+        if (history.includes(target.textContent)) return;
+
+        bingo.activeHistory(target, 'game-history-box');
+
+        const meResult = me.getResult(target);
+        const youResult = you.getResult(target);
+        me.containerEl.querySelector('.score-text').innerText = meResult;
+        you.containerEl.querySelector('.score-text').innerText = youResult;
+
+
+        if (meResult === 5 || youResult === 5) {
+          alert('이겼습니다');
+          this.resetGame();
+        }
+      }
+
       new CreateBoardUI({
         bingo,
         callback,
