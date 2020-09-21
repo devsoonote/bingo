@@ -1,4 +1,6 @@
-class Player{
+import { getRandomArbitrary } from './utils';
+
+export default class Player{
   constructor(containerEl, {row = 5, cell = 5, name = ''}) {
     this.board = this.createBoard(row, cell);
     this.score = 0;

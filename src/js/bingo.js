@@ -1,4 +1,4 @@
-class Bingo {
+export default class Bingo {
   constructor([me, you]) {
     this.history = [];
     this.current = me;

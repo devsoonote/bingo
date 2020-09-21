@@ -1,0 +1,12 @@
+{
+  "name": "bingo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com-second:devsoonote/bingo.git",
+  "author": "devsoonote <sookung93@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  }
+}

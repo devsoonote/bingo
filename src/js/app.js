@@ -1,5 +1,8 @@
-// app
-class App{
+import Player from "./player";
+import Bingo from "./bingo";
+import CreateBoardUI from "./createBoardUI";
+
+export default class App{
   constructor() {
     const mePlayerNameEl = document.getElementById('me-name');
     const youPlayerNameEl = document.getElementById('you-name');
@@ -59,6 +62,5 @@ class App{
 }
 
 
-new App();
 
 

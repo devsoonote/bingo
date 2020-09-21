@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+body {
+  background-color: burlywood;
+  font-family: 'Black Han Sans', sans-serif; }
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh; }
+  .wrapper .header {
+    padding: 1.5rem 0; }
+    .wrapper .header .logo {
+      font-size: 4rem;
+      text-align: center;
+      color: #7a5c33; }
+
+.main-page .role-box {
+  background-color: #e7d6bf;
+  width: 500px;
+  padding: 2rem 0;
+  text-align: center;
+  line-height: 1.5; }
+.main-page .btn-box {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center; }
+.main-page .start-btn {
+  cursor: pointer;
+  width: 300px;
+  height: 50px;
+  background-color: #b89666;
+  color: #fff;
+  border: none;
+  font-size: 1.3rem;
+  outline: none; }
+  .main-page .start-btn:active, .main-page .start-btn:focus {
+    background-color: #7a5c33; }
+.main-page .name-box {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between; }
+.main-page .player-name {
+  border: 0;
+  background-color: #e7d6bf;
+  padding: 0.8rem 1rem;
+  width: 40%;
+  outline: none; }
+
+.footer {
+  font-family: sans-serif;
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center; }
+
+.game-page {
+  display: none; }
+  .game-page .game-board-container {
+    display: flex; }
+    .game-page .game-board-container .game-board-name {
+      text-align: center; }
+    .game-page .game-board-container .board {
+      width: 400px;
+      height: 400px;
+      background-color: #7a5c33;
+      margin: 10px; }
+      .game-page .game-board-container .board tr,
+      .game-page .game-board-container .board td {
+        border: 1px solid #e7d6bf; }
+      .game-page .game-board-container .board td {
+        font-size: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        line-height: 79px;
+        width: 20%; }
+        .game-page .game-board-container .board td.active {
+          background-color: #4c3315; }
+  .game-page .game-history-container {
+    background-color: #b89666;
+    padding: 10px;
+    margin-top: 1.5rem; }
+    .game-page .game-history-container h3 {
+      margin-bottom: 1rem; }
+    .game-page .game-history-container span {
+      padding-right: 0.5rem; }
+  .game-page .btn-box {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center; }
+  .game-page .start-btn {
+    cursor: pointer;
+    width: 300px;
+    height: 50px;
+    background-color: #b89666;
+    color: #fff;
+    border: none;
+    font-size: 1.3rem;
+    outline: none; }
+    .game-page .start-btn:active, .game-page .start-btn:focus {
+      background-color: #7a5c33; }
+
+/*# sourceMappingURL=styles.css.map */

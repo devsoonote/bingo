@@ -1,4 +1,4 @@
-class CreateBoardUI{
+export default class CreateBoardUI{
   constructor({bingo, callback, player}) {
     if (!(callback instanceof Function)) {
       throw new Error('콜백함수를 잘못 전달 받았습니다');
