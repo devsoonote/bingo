@@ -27,24 +27,14 @@ App.prototype.startGame = function(me, you) {
         me.containerEl.querySelector('.score-text').innerText = meResult;
         you.containerEl.querySelector('.score-text').innerText = youResult;
 
-
         if (meResult === 5 || youResult === 5) {
           alert('이겼습니다');
           this.resetGame();
         }
       }
 
-      new CreateBoardUI({
-        bingo,
-        callback,
-        player: me
-      });
-
-      new CreateBoardUI({
-        bingo,
-        callback,
-        player: you
-      });
+      new CreateBoardUI({ bingo, callback, player: me });
+      new CreateBoardUI({ bingo, callback, player: you});
     } catch (e) {
       console.log(e);
     }
