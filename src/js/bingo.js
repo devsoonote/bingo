@@ -1,12 +1,11 @@
-function Bingo([me, you]) {
-  this.history = [];
-  this.current = me;
-  this.players = [me, you]
-}
+class Bingo {
+  constructor([me, you]) {
+    this.history = [];
+    this.current = me;
+    this.players = [me, you]
+  }
 
-Bingo.prototype = {
-  constructor: Bingo,
-  activeHistory: function(target, historyBoxEl) {
+  activeHistory(target, historyBoxEl) {
     if (document.getElementById(historyBoxEl) === null) throw Error();
     this.historyBoxEl = document.getElementById(historyBoxEl);
 
@@ -20,5 +19,5 @@ Bingo.prototype = {
     }
 
     return this.history;
-  },
+  }
 }

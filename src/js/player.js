@@ -1,23 +1,22 @@
-function Player(containerEl, {row = 5, cell = 5, name = ''}) {
-  this.board = this.createBoard(row, cell);
-  this.score = 0;
-  this.name = name;
+class Player{
+  constructor(containerEl, {row = 5, cell = 5, name = ''}) {
+    this.board = this.createBoard(row, cell);
+    this.score = 0;
+    this.name = name;
 
-  this.result = {
-    row: new Array(5).fill(0),
-    cell: new Array(5).fill(0),
-    left: 0,
-    right: 0
+    this.result = {
+      row: new Array(5).fill(0),
+      cell: new Array(5).fill(0),
+      left: 0,
+      right: 0
+    }
+
+    if (document.getElementById(containerEl) === null) throw Error(`${containerEl}를 찾을 수 없습니다`);
+
+    this.containerEl = document.getElementById(containerEl);
   }
 
-  if (document.getElementById(containerEl) === null) throw Error(`${containerEl}를 찾을 수 없습니다`);
-
-  this.containerEl = document.getElementById(containerEl);
-}
-
-Player.prototype = {
-  constructor: Player,
-  createBoard: function(row, cell) {
+  createBoard(row, cell) {
     const numbers = [];
     this.board = [];
 
@@ -36,8 +35,8 @@ Player.prototype = {
     }
 
     return this.board;
-  },
-  getResult: function(target) {
+  }
+  getResult(target) {
     const { result, board } = this;
 
     for (let i=0; i<board.length; i++) {
@@ -60,8 +59,8 @@ Player.prototype = {
     }
 
     return this.getScoreString();
-  },
-  getScoreString: function() {
+  }
+  getScoreString() {
     const { result } = this;
     const resultCell = result.cell.filter(item => item === 5);
     const resultRow = result.row.filter(item => item === 5);
