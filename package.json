@@ -16,6 +16,10 @@
     "gh-pages": "^3.1.0",
     "html-loader": "^1.3.0",
     "html-webpack-plugin": "^4.4.1",
+    "jasmine-core": "^3.6.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^4.0.1",
+    "karma-webpack": "^4.0.2",
     "mini-css-extract-plugin": "^0.11.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.2",
@@ -25,7 +29,11 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development --open --hot",
+    "test": "karma start",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "karma": "^5.2.2"
   }
 }
