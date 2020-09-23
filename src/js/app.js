@@ -6,10 +6,13 @@ export default class App{
   constructor() {
     const mePlayerNameEl = document.getElementById('me-name');
     const youPlayerNameEl = document.getElementById('you-name');
+    const meEl = document.getElementById('me');
+    const youEl = document.getElementById('you');
 
     document.getElementById('start-button').addEventListener('click', (e) => {
-      const me = new Player('me', {row: 5, cell: 5, name: mePlayerNameEl.value});
-      const you = new Player('you', {row: 5, cell: 5, name: youPlayerNameEl.value});
+      // Element를 주입시킨다.
+      const me = new Player(meEl, {row: 5, cell: 5, name: mePlayerNameEl.value});
+      const you = new Player(youEl, {row: 5, cell: 5, name: youPlayerNameEl.value});
 
       this.startGame(me, you);
       e.preventDefault();
@@ -24,7 +27,8 @@ export default class App{
       const callback = (target) => {
         if (history.includes(target.textContent)) return;
 
-        bingo.activeHistory(target, 'game-history-box');
+        const historyBoxEl = document.querySelector('#game-history-box');
+        bingo.updateHistoryView(historyBoxEl, target);
 
         const meResult = me.getResult(target);
         const youResult = you.getResult(target);
