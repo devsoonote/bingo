@@ -1,7 +1,9 @@
-import { getRandomArbitrary } from './utils';
+import utils from './utils';
 
 export default class Player{
   constructor(containerEl, {row = 5, cell = 5, name = ''}) {
+    if (!containerEl) throw Error(`containerEl가 주입되지 않았습니다`);
+
     this.board = this.createBoard(row, cell);
     this.score = 0;
     this.name = name;
@@ -13,9 +15,7 @@ export default class Player{
       right: 0
     }
 
-    if (document.getElementById(containerEl) === null) throw Error(`${containerEl}를 찾을 수 없습니다`);
-
-    this.containerEl = document.getElementById(containerEl);
+    this.containerEl = containerEl;
   }
 
   createBoard(row, cell) {
@@ -29,7 +29,7 @@ export default class Player{
     for (let i = 0; i < row; i++) {
       const board_row = [];
       for (let j = 0; j < cell; j++) {
-        const idx = getRandomArbitrary(0, numbers.length - 1);
+        const idx = utils.getRandomArbitrary(0, numbers.length - 1);
         board_row.push(numbers[idx]);
         numbers.splice(idx, 1);
       }
@@ -38,10 +38,11 @@ export default class Player{
 
     return this.board;
   }
-  getResult(target) {
+
+  calculateResult(target) {
     const { result, board } = this;
 
-    for (let i=0; i<board.length; i++) {
+    for (let i = 0; i<board.length; i++) {
       for (let j = 0; j < board[i].length; j++) {
         if (board[i][j] === parseInt(target.textContent, 10)) {
           result.row[i]++;
@@ -60,9 +61,10 @@ export default class Player{
       }
     }
 
-    return this.getScoreString();
+    return this.getScore();
   }
-  getScoreString() {
+
+  getScore() {
     const { result } = this;
     const resultCell = result.cell.filter(item => item === 5);
     const resultRow = result.row.filter(item => item === 5);
@@ -78,5 +80,12 @@ export default class Player{
     }
 
     return this.score;
+  }
+
+  updateScoreEl(scoreEl, target) {
+    if (!scoreEl) throw Error('scoreEl이 주입되지 않았습니다');
+    if (!target) throw Error('target이 주입되지 않았습니다');
+
+    scoreEl.innerHTML = this.calculateResult(target)
   }
 }

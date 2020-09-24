@@ -30,12 +30,12 @@ export default class App{
         const historyBoxEl = document.querySelector('#game-history-box');
         bingo.updateHistoryView(historyBoxEl, target);
 
-        const meResult = me.getResult(target);
-        const youResult = you.getResult(target);
-        me.containerEl.querySelector('.score-text').innerText = meResult;
-        you.containerEl.querySelector('.score-text').innerText = youResult;
+        const meScoreEl = me.containerEl.querySelector('.score-text');
+        const youScoreEl = you.containerEl.querySelector('.score-text');
+        me.updateScoreEl(meScoreEl, target);
+        you.updateScoreEl(youScoreEl, target);
 
-        if (meResult === 5 || youResult === 5) {
+        if (me.score === 5 || you.score === 5) {
           alert('이겼습니다');
           this.resetGame();
         }
