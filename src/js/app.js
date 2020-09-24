@@ -10,7 +10,6 @@ export default class App{
     const youEl = document.getElementById('you');
 
     document.getElementById('start-button').addEventListener('click', (e) => {
-      // Element를 주입시킨다.
       const me = new Player(meEl, {row: 5, cell: 5, name: mePlayerNameEl.value});
       const you = new Player(youEl, {row: 5, cell: 5, name: youPlayerNameEl.value});
 
@@ -20,7 +19,7 @@ export default class App{
   }
 
   startGame(me, you){
-    const bingo = new Bingo([me.name, you.name]);
+    const bingo = new Bingo([me, you]);
     const { history } = bingo;
 
     try {
@@ -41,8 +40,8 @@ export default class App{
         }
       }
 
-      new CreateBoardUI({ bingo, callback, player: me });
-      new CreateBoardUI({ bingo, callback, player: you});
+      new CreateBoardUI(callback, me);
+      new CreateBoardUI(callback, you);
     } catch (e) {
       console.log(e);
     }
