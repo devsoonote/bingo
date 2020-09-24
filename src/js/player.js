@@ -29,7 +29,7 @@ export default class Player{
     for (let i = 0; i < row; i++) {
       const board_row = [];
       for (let j = 0; j < cell; j++) {
-        const idx = utils.getRandomArbitrary(0, numbers.length - 1);
+        const idx = utils.getRandomArbitrary(0, numbers.length);
         board_row.push(numbers[idx]);
         numbers.splice(idx, 1);
       }
