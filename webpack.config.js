@@ -8,6 +8,9 @@ module.exports = {
     filename: "main.js",
     path: path.resolve(__dirname, 'dist')
   },
+  resolve: {
+    extensions: ['.ts', '.js']
+  },
   module: {
     rules: [
       {
@@ -33,10 +36,10 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: "ts-loader"
         }
       }
     ]
