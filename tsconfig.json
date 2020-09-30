@@ -7,7 +7,11 @@
     "outDir": "dist",
     "target": "ES5",
     "sourceMap": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true
   },
   "include": [
     "src/js/*.ts"
