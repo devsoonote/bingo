@@ -6,8 +6,8 @@ interface IBingo {
 
 export default class Bingo implements IBingo {
     public history: number[];
-    public current: any;
-    public players: any[];
+    public current: Player;
+    public players: Player[];
 
     constructor(
         public playersOptions: Player[]
