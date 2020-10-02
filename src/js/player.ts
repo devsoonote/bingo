@@ -108,7 +108,7 @@ export default class Player implements IPlayer{
         return this.score;
     }
 
-    updateScoreEl(scoreEl: HTMLElement, target: HTMLElement) {
+    updateScoreEl(scoreEl: Element | null, target: HTMLElement) {
         if (!scoreEl) throw Error('scoreEl이 주입되지 않았습니다');
         if (!target) throw Error('target이 주입되지 않았습니다');
 

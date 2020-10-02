@@ -1,13 +1,13 @@
 import Player from "./player";
 
 interface ICreateBoardUI {
-    callback: () => {};
+    callback: (target: HTMLElement) => void;
     player: Player;
 }
 
 export default class CreateBoardUI implements  ICreateBoardUI{
     constructor(
-        public callback: () => {},
+        public callback: (target: HTMLElement) => void,
         public player: Player
     ) {
 
@@ -19,8 +19,8 @@ export default class CreateBoardUI implements  ICreateBoardUI{
             this.createScoreElView(scoreEl, player.score);
         });
 
-        player.containerEl.querySelector('.board')?.addEventListener('click', (e) => {
-            callback.call(null, e.target);
+        player.containerEl.querySelector('.board')?.addEventListener('click', (e: Event) => {
+            callback.call(null, <HTMLElement>e.target);
         });
     }
 

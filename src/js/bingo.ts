@@ -41,12 +41,12 @@ export default class Bingo implements IBingo {
 
         target.classList.add('active');
         const boards: HTMLCollectionOf<Element> = document.getElementsByClassName('board');
-        const otherBoard: HTMLElement = [].reduce.call(boards, (acc: HTMLElement, cur: HTMLElement) => cur !== target.parentNode?.parentNode ? cur : acc);
+        const otherBoard = [].reduce.call(boards, (acc: any, cur: HTMLElement) => cur !== target.parentNode?.parentNode ? cur : acc, {} as Record<any, HTMLElement>);
         this.addClassOfOtherBoard(otherBoard, target);
     }
 
     addClassOfOtherBoard(boardEl: HTMLElement, target: HTMLElement): void{
-        Array.prototype.forEach.call(boardEl.children, (trEl: HTMLElement) => {
+        Array.prototype.forEach.call(boardEl?.children, (trEl: HTMLElement) => {
             Array.prototype.forEach.call(trEl.children, (tdEl: HTMLElement) => {
                 if (tdEl.textContent === target.textContent) {
                     tdEl.classList.add('active');
@@ -55,7 +55,7 @@ export default class Bingo implements IBingo {
         })
     }
 
-    updateHistoryView(historyBoxEl: HTMLElement, target: HTMLElement) {
+    updateHistoryView(historyBoxEl: Element | null, target: HTMLElement) {
         if (!historyBoxEl) throw Error('historyBoxEl가 주입되지 않았습니다');
         if (!target) throw Error('target이 주입되지 않았습니다');
 
